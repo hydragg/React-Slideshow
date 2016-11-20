@@ -1,6 +1,6 @@
-import react from 'react';
+import React from 'react';
 
-export class LivePreVies extends React.Component {
+export class LivePreview extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -15,7 +15,7 @@ export class LivePreVies extends React.Component {
 	}
 	render(){
 		return (
-			
+			<div>{this.props.text}</div>
 		);
 	}
 }

@@ -1,11 +1,17 @@
-import react from 'react';
+import React from 'react';
+import { SlideShowButton } from './SlideShowButton';
+import { LivePreview } from './LivePreview';
 
 export class  SlideShow extends React.Component {
 	constructor(props){
 		super(props);
+		this.onChange=this.onChange.bind(this);
 		this.state = {
-
+			text:"",
 		};
+	}
+	onChange(e){
+		this.setState({text:e.target.value});
 	}
 	componentDidMount(){
 
@@ -18,9 +24,9 @@ export class  SlideShow extends React.Component {
 			<div>
 				<from>
 					<SlideShowButton />
-					<textarea />
+					<textarea rows="30" onChange={this.onChange} />
 				</from>
-				<LivePreVies />
+				<LivePreview text={this.state.text}/>
 			</div>
 		);
 	}
