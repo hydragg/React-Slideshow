@@ -21,12 +21,16 @@ export class  SlideShow extends React.Component {
 	}
 	render(){
 		return (
-			<div>
-				<from>
-					<SlideShowButton />
-					<textarea rows="30" onChange={this.onChange} />
-				</from>
-				<LivePreview text={this.state.text}/>
+			<div className="row">
+				<div className="col-md-6">
+					<from>
+						<SlideShowButton className="btn btn-primary" />
+						<textarea rows="30" onChange={this.onChange} className="form-control"/>
+					</from>
+				</div>
+				<div className="col-md-6">
+					<LivePreview text={this.state.text}/>
+				</div>
 			</div>
 		);
 	}

@@ -4,4 +4,4 @@ import { SlideShow } from './Components/SlideShow';
 
 
 
-ReactDOM.render(<SlideShow />, document.getElementById('app'));
+ReactDOM.render(<SlideShow  />, document.getElementById('app'));

@@ -16,7 +16,7 @@ export class SlideShowButton extends React.Component {
 	render(){
 		return (
 			<div>
-				<button>播放</button>
+				<button className={this.props.className}>播放</button>
 			</div>
 		);
 	}
