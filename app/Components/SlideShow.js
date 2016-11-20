@@ -10,7 +10,7 @@ export class  SlideShow extends React.Component {
 			text:"",
 		};
 	}
-	onChange(e){
+	onChange(e){   //內容發生改變時觸發
 		this.setState({text:e.target.value});
 	}
 	componentDidMount(){
