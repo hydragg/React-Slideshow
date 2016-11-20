@@ -8,23 +8,20 @@ export class  SlideShow extends React.Component {
 		this.onChange=this.onChange.bind(this);
 		this.state = {
 			text:"",
+			canPlay:false,
 		};
 	}
 	onChange(e){   //內容發生改變時觸發
-		this.setState({text:e.target.value});
+		this.setState({text:e.target.value,canPlay:e.target.value != ''});
 	}
-	componentDidMount(){
 
-	}
-	componentWillUnmount(){
 
-	}
 	render(){
 		return (
 			<div className="row">
 				<div className="col-md-6">
 					<from>
-						<SlideShowButton className="btn btn-primary" />
+						<SlideShowButton canPlay={this.state.canPlay} text={this.state.text} className="btn btn-primary" />
 						<textarea rows="30" onChange={this.onChange} className="form-control"/>
 					</from>
 				</div>
