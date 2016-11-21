@@ -21,7 +21,11 @@ export class  SlideShow extends React.Component {
 			<div className="row">
 				<div className="col-md-6">
 					<from>
-						<SlideShowButton canPlay={this.state.canPlay} text={this.state.text} className="btn btn-primary" />
+						<SlideShowButton 
+							canPlay={this.state.canPlay} 
+							text={this.state.text} 
+							className="btn btn-primary" 
+						/>
 						<textarea rows="30" onChange={this.onChange} className="form-control"/>
 					</from>
 				</div>

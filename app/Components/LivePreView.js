@@ -21,3 +21,11 @@ export class LivePreview extends React.Component {
 		);
 	}
 }
+
+LivePreview.defaultProps = {
+	html:"",
+};
+
+LivePreview.propTypes = {
+	html:React.PropTypes.string,
+};
