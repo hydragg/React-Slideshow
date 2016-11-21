@@ -21493,7 +21493,8 @@
 
 			_this.onChange = _this.onChange.bind(_this);
 			_this.state = {
-				text: ""
+				text: "",
+				canPlay: false
 			};
 			return _this;
 		}
@@ -21501,14 +21502,9 @@
 		_createClass(SlideShow, [{
 			key: 'onChange',
 			value: function onChange(e) {
-				this.setState({ text: e.target.value });
+				//內容發生改變時觸發
+				this.setState({ text: e.target.value, canPlay: e.target.value != '' });
 			}
-		}, {
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
-		}, {
-			key: 'componentWillUnmount',
-			value: function componentWillUnmount() {}
 		}, {
 			key: 'render',
 			value: function render() {
@@ -21521,7 +21517,11 @@
 						_react2.default.createElement(
 							'from',
 							null,
-							_react2.default.createElement(_SlideShowButton.SlideShowButton, { className: 'btn btn-primary' }),
+							_react2.default.createElement(_SlideShowButton.SlideShowButton, {
+								canPlay: this.state.canPlay,
+								text: this.state.text,
+								className: 'btn btn-primary'
+							}),
 							_react2.default.createElement('textarea', { rows: '30', onChange: this.onChange, className: 'form-control' })
 						)
 					),
@@ -21541,7 +21541,7 @@
 /* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -21570,26 +21570,53 @@
 
 			var _this = _possibleConstructorReturn(this, (SlideShowButton.__proto__ || Object.getPrototypeOf(SlideShowButton)).call(this, props));
 
-			_this.state = {};
+			_this.handle = _this.handle.bind(_this);
+			_this.state = {
+				text: ""
+			};
 			return _this;
 		}
 
 		_createClass(SlideShowButton, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
+			key: "componentDidMount",
+			value: function componentDidMount() {
+				//元件寫入DOM之後觸發
+				$(this.refs.content).addClass("disabled");
+			}
 		}, {
-			key: 'componentWillUnmount',
-			value: function componentWillUnmount() {}
+			key: "componentDidUpdate",
+			value: function componentDidUpdate() {
+				//更新後觸發
+				if (this.props.canPlay === true) {
+					$(this.refs.content).removeClass("disabled");
+				} else {
+					$(this.refs.content).addClass("disabled");
+				}
+			}
 		}, {
-			key: 'render',
+			key: "componentWillReceiveProps",
+			value: function componentWillReceiveProps(props) {
+				//收到新的props時觸發
+				this.setState({ text: props.text });
+			}
+		}, {
+			key: "handle",
+			value: function handle(e) {
+				document.getElementById("source").innerHTML = this.state.text;
+				remark.create();
+			}
+		}, {
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
+					"div",
 					null,
 					_react2.default.createElement(
-						'button',
-						{ className: this.props.className },
-						'\u64AD\u653E'
+						"button",
+						{ ref: "content",
+							onClick: this.handle,
+							className: this.props.className },
+						"\u64AD\u653E"
 					)
 				);
 			}
@@ -21598,11 +21625,21 @@
 		return SlideShowButton;
 	}(_react2.default.Component);
 
+	SlideShowButton.defaultProps = { //當父元件沒有提供值時則用預設值
+		canPlay: true,
+		text: ""
+	};
+
+	SlideShowButton.propTypes = { //規範原件prop的資料型別
+		canPlay: _react2.default.PropTypes.bool,
+		text: _react2.default.PropTypes.string
+	};
+
 /***/ },
 /* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -21631,29 +21668,47 @@
 
 			var _this = _possibleConstructorReturn(this, (LivePreview.__proto__ || Object.getPrototypeOf(LivePreview)).call(this, props));
 
-			_this.state = {};
+			_this.converter = new showdown.Converter();
+			_this.state = {
+				html: ""
+			};
 			return _this;
 		}
 
 		_createClass(LivePreview, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
+			key: "componentDidUpdate",
+			value: function componentDidUpdate() {
+				//更新後觸發
+				document.getElementById("LivePreview").innerHTML = this.state.html;
+			}
 		}, {
-			key: 'componentWillUnmount',
-			value: function componentWillUnmount() {}
+			key: "componentWillReceiveProps",
+			value: function componentWillReceiveProps(props) {
+				//收到新的props時觸發
+				var html = this.converter.makeHtml(props.text);
+				this.setState({ html: html });
+			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					null,
-					this.props.text
+					"div",
+					{ id: "LivePreview" },
+					this.state.html
 				);
 			}
 		}]);
 
 		return LivePreview;
 	}(_react2.default.Component);
+
+	LivePreview.defaultProps = {
+		html: ""
+	};
+
+	LivePreview.propTypes = {
+		html: _react2.default.PropTypes.string
+	};
 
 /***/ }
 /******/ ]);
